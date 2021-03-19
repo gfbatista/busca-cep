@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import AppError from './errors/AppError';
+import AppError from './util/AppError';
 
 import './database';
 
