@@ -4,10 +4,34 @@ import ZipCodeRepository from '../repository/ZipCodeRepository';
 
 export default {
     async find(request: Request, response: Response) {
+        const { cep } = request.params;
+
         const zipCodeRepository = getCustomRepository(ZipCodeRepository);
 
-        const zipCode = await zipCodeRepository.find();
+        const zipCode = await zipCodeRepository.find({
+            where: {
+                cep
+            }
+        });
 
         return response.json(zipCode);
+    },
+
+    async create(request: Request, response: Response) {
+        const { cep, rua, bairro, cidade, uf } = request.body
+
+        const zipCodeRepository = getCustomRepository(ZipCodeRepository);
+
+        const zipCode = zipCodeRepository.create({
+            cep,
+            rua,
+            bairro,
+            cidade,
+            uf
+        });
+
+        await zipCodeRepository.save(zipCode);
+
+        return response.status(201).json(zipCode);
     }
 }

@@ -2,7 +2,7 @@
     "type": "sqlite",
     "database": "./src/database/database_zipcode.sqlite",
     "entities": [
-		"./src/models/*.ts"
+		"./src/model/*.ts"
 	],
     "logging": true,
     "migrations": [
