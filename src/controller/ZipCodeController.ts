@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm';
-import ZipCodeRepository from '../repositories/ZipCodeRepository';
+import ZipCodeRepository from '../repository/ZipCodeRepository';
 
 export default {
     async find(request: Request, response: Response) {

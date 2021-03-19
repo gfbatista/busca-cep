@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import ZipCodeController from './controllers/ZipCodeController';
+import ZipCodeController from './controller/ZipCodeController';
 
 const routes = Router();
 
