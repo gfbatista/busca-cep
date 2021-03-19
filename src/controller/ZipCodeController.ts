@@ -18,20 +18,24 @@ export default {
     },
 
     async create(request: Request, response: Response) {
-        const { cep, rua, bairro, cidade, uf } = request.body
+        try {
+            const { cep, rua, bairro, cidade, uf } = request.body
 
-        const zipCodeRepository = getCustomRepository(ZipCodeRepository);
+            const zipCodeRepository = getCustomRepository(ZipCodeRepository);
 
-        const zipCode = zipCodeRepository.create({
-            cep,
-            rua,
-            bairro,
-            cidade,
-            uf
-        });
+            const zipCode = zipCodeRepository.create({
+                cep,
+                rua,
+                bairro,
+                cidade,
+                uf
+            });
 
-        await zipCodeRepository.save(zipCode);
+            await zipCodeRepository.save(zipCode);
 
-        return response.status(201).json(zipCode);
+            return response.status(201).json(zipCode);
+        } catch (err) {
+            return response.status(400).json({ error: err.message });
+        }
     }
 }
