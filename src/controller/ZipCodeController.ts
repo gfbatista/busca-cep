@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm';
+import * as Yup from 'yup';
 
 import ZipCodeRepository from '../repository/ZipCodeRepository';
 
@@ -24,13 +25,19 @@ class ZipCodeController {
 
             const zipCodeRepository = getCustomRepository(ZipCodeRepository);
 
-            const zipCode = zipCodeRepository.create({
-                cep,
-                rua,
-                bairro,
-                cidade,
-                uf
+            const data = { cep, rua, bairro, cidade, uf }
+
+            const schema = Yup.object().shape({
+                cep: Yup.string().required(),
+                rua: Yup.string().required(),
+                bairro: Yup.string().required(),
+                cidade: Yup.string().required(),
+                uf: Yup.string().required(),
             });
+
+            await schema.validate(data, { abortEarly: false });
+
+            const zipCode = zipCodeRepository.create(data);
 
             await zipCodeRepository.save(zipCode);
 
