@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm';
+
 import ZipCodeRepository from '../repository/ZipCodeRepository';
 
-export default {
+class ZipCodeController {
     async find(request: Request, response: Response) {
         const { cep } = request.params;
 
@@ -15,7 +16,7 @@ export default {
         });
 
         return response.json(zipCode);
-    },
+    }
 
     async create(request: Request, response: Response) {
         try {
@@ -39,3 +40,5 @@ export default {
         }
     }
 }
+
+export default ZipCodeController;

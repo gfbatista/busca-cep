@@ -3,7 +3,7 @@ import { resolve } from "path";
 
 const sqlite3 = require('sqlite3').verbose();
 
-export default {
+class CheckConnection {
     async ping(request: Request, response: Response) {
         const absolutePath = resolve(__dirname, "database_zipcode.sqlite");
 
@@ -17,3 +17,5 @@ export default {
         db.close();
     }
 }
+
+export default CheckConnection;
