@@ -6,7 +6,7 @@ Exemplo de todo fluxo: Busca inicial com o registro 14403205 > `14403205 > 14403
 
 ### Requisitos: ###
 ```
-NodeJs com Typescript
+NodeJs (12.18.3) com Typescript
 Express
 TypeORM
 Sqlite
@@ -34,7 +34,9 @@ Para realizar cadastros ou buscas na API, é necessário gerar um token de auten
 ```
  curl --location --request GET 'http://localhost:3333/zipcode/14403205' \
 --header 'Authorization: Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxx' 
+
 ```
+### Swagger: ###
 
 ### Payload para cadastro do CEP: ###
 ```
