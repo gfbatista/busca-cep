@@ -1,8 +1,8 @@
-# busca-cep
+# busca-cep-api
 ## Desafio Técnico Luizalabs ##
 
-A API consiste basicamente em cadastrar e pesquisar CEPs, expondo duas rotas devidamente autenticadas de [GET] e [POST]. A principal regra da API é no momento da busca de um determinado CEP, onde há uma validação caso não encontre nenhum registro. A validação percorre toda a cadeia de caracteres do CEP e substitui o último caractere por 0, não encontrando registro do mesmo, a substituição é realizada no penúltimo caractere somente e assim sucessivamente. <br>
-Exemplo de todo fluxo: 14403205 > 14403200 > 14403205 > 14403005 > 14400205 > 14403205 > 14003205 > 10403205 > 04403205.
+A API consiste basicamente em cadastrar e pesquisar CEPs, expondo duas rotas devidamente autenticadas de [GET] e [POST]. A principal regra da API é no momento da busca de um determinado CEP, onde há uma validação caso não encontre nenhum registro. A validação percorre toda a cadeia de caracteres do CEP e substitui o último caractere por 0, não encontrando registro do mesmo, a substituição é realizada no penúltimo caractere somente e assim sucessivamente até terminar a cadeia ou encontrar um registro. <br>
+Exemplo de todo fluxo: `14403205 > 14403200 > 14403205 > 14403005 > 14400205 > 14403205 > 14003205 > 10403205 > 04403205`
 
 ### Requisitos: ###
 ```
