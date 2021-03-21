@@ -26,7 +26,7 @@ npm run typeorm migration:run
 - Adquirir token para realizar busca e cadastro dos CEPs: <br>
 [POST] http://localhost:3333/zipcode/token <br><br>
 - Busca de um determinado CEP: <br>
-[GET]  http://localhost:3333/zipcode/:cep <br><br>
+[GET]  http://localhost:3333/zipcode/{cep} <br><br>
 - Cadastro de CEP: <br>
 [POST] http://localhost:3333/zipcode <br><br>
 
