@@ -1,45 +1,48 @@
 import { Request, Response } from 'express'
-import { getCustomRepository } from 'typeorm';
-import * as Yup from 'yup';
 
-import ZipCodeRepository from '../repository/ZipCodeRepository';
+import ZipCodeService from '../service/ZipCodeService';
+import ApiError from '../util/ApiError';
+import { setCep } from '../util/functions';
 
 class ZipCodeController {
     async find(request: Request, response: Response) {
-        const { cep } = request.params;
+        try {
+            const { cep } = request.params;
 
-        const zipCodeRepository = getCustomRepository(ZipCodeRepository);
+            const zipCodeService = new ZipCodeService();
 
-        const zipCode = await zipCodeRepository.find({
-            where: {
-                cep
+            let zipCode = await zipCodeService.find({ cep });
+
+            if (!zipCode.length) {
+                const newCep = cep;
+                for (let index = cep.length - 1; index >= 0; index--) {
+                    let cep = setCep(newCep, index, 0);
+                    zipCode = await zipCodeService.find({ cep });
+                    if (zipCode.length) {
+                        break;
+                    }
+                }
             }
-        });
 
-        return response.json(zipCode);
+            if (!zipCode.length) {
+                throw new ApiError('CEP inválido',);
+            }
+
+            return response.json(zipCode);
+
+        } catch (err) {
+            return response.status(400).json({ error: err.message });
+        }
+
     }
 
     async create(request: Request, response: Response) {
         try {
             const { cep, rua, bairro, cidade, uf } = request.body
 
-            const zipCodeRepository = getCustomRepository(ZipCodeRepository);
+            const zipCodeService = new ZipCodeService();
 
-            const data = { cep, rua, bairro, cidade, uf }
-
-            const schema = Yup.object().shape({
-                cep: Yup.string().required(),
-                rua: Yup.string().required(),
-                bairro: Yup.string().required(),
-                cidade: Yup.string().required(),
-                uf: Yup.string().required(),
-            });
-
-            await schema.validate(data, { abortEarly: false });
-
-            const zipCode = zipCodeRepository.create(data);
-
-            await zipCodeRepository.save(zipCode);
+            const zipCode = await zipCodeService.execute({ cep, rua, bairro, cidade, uf });
 
             return response.status(201).json(zipCode);
         } catch (err) {
