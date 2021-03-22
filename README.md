@@ -37,6 +37,9 @@ Para realizar cadastros ou buscas na API, é necessário gerar um token de auten
 
 ```
 ### Swagger: ###
+```
+http://localhost:3333/zipcode/documentation
+```
 
 ### Payload para cadastro do CEP: ###
 ```
