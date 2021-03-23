@@ -21,25 +21,25 @@ interface ZipCodeRequest {
 }
 
 class ZipCodeService {
-    public async find({ cep }: CepRequest): Promise<ZipCode> {
+    public async find({ cep }: CepRequest): Promise<ZipCode[]> {
 
         const zipCodeRepository = getCustomRepository(ZipCodeRepository);
 
         let zipCode = await zipCodeRepository.findByCep(cep)
 
-        if (!zipCode) {
+        if (!zipCode.length) {
             let newCep = cep;
             for (let index = cep.length - 1; index >= 0; index--) {
                 let cep = setCep(newCep, index, 0);
                 newCep = cep;
                 zipCode = await zipCodeRepository.findByCep(cep);
-                if (zipCode) {
+                if (zipCode.length) {
                     break;
                 }
             }
         }
 
-        if (!zipCode) {
+        if (!zipCode.length) {
             throw new ApiError('CEP inválido');
         }
 
