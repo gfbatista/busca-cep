@@ -6,7 +6,7 @@ Exemplo de todo fluxo: Busca inicial com o registro 14403205 > `14403205 > 14403
 
 ### Requisitos: ###
 ```
-NodeJs (12.18.3) 
+Node.js (12.18.3) 
 Typescript
 Express
 TypeORM
