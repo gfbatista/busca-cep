@@ -30,7 +30,7 @@ npm run test
 [POST] http://localhost:3333/zipcode/token <br><br>
 - Busca de um determinado CEP: <br>
 [GET]  http://localhost:3333/zipcode/{cep} <br><br>
-- Cadastro de CEP: <br>
+- Cadastro de CEP (8 dígitos sem o "-"): <br>
 [POST] http://localhost:3333/zipcode <br><br>
 
 Para realizar cadastros ou buscas na API, é necessário gerar um token de autenticação utlizando a rota <b> [POST] zipcode/token </b>, e posteriormente usando no header da requisição 
