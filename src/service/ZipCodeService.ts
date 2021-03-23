@@ -28,9 +28,10 @@ class ZipCodeService {
         let zipCode = await zipCodeRepository.findByCep(cep)
 
         if (!zipCode) {
-            const newCep = cep;
+            let newCep = cep;
             for (let index = cep.length - 1; index >= 0; index--) {
                 let cep = setCep(newCep, index, 0);
+                newCep = cep;
                 zipCode = await zipCodeRepository.findByCep(cep);
                 if (zipCode) {
                     break;
@@ -39,7 +40,7 @@ class ZipCodeService {
         }
 
         if (!zipCode) {
-            throw new ApiError('CEP inválido',);
+            throw new ApiError('CEP inválido');
         }
 
         return zipCode;
@@ -51,7 +52,7 @@ class ZipCodeService {
         const responseCep = await getCepCorreios(cep);
 
         if (!responseCep) {
-            throw new ApiError('CEP inválido udenfined',);
+            throw new ApiError('CEP inválido',);
         }
 
         const zipCodeRepository = getCustomRepository(ZipCodeRepository);
