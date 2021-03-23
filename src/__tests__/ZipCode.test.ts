@@ -26,7 +26,7 @@ describe("Testing Zipcode", () => {
         const response = await request(app).post("/zipcode")
             .set('Authorization', '')
             .send({
-                cep: "14403110",
+                cep: "14403224",
                 rua: "RUA TESTE",
                 bairro: "BAIRRO TESTE",
                 cidade: "CIDADE TESTE",
@@ -39,7 +39,7 @@ describe("Testing Zipcode", () => {
         const response = await request(app).post("/zipcode")
             .set('Authorization', `Bearer ${token}`)
             .send({
-                cep: "14403110",
+                cep: "14403224",
                 rua: "RUA TESTE",
                 bairro: "BAIRRO TESTE",
                 cidade: "CIDADE TESTE",
@@ -60,8 +60,21 @@ describe("Testing Zipcode", () => {
         expect(response.status).toBe(400);
     });
 
+    it("[400] - Invalid cep", async () => {
+        const response = await request(app).post("/zipcode")
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                cep: "14403001",
+                rua: "RUA TESTE",
+                bairro: "BAIRRO TESTE",
+                cidade: "CIDADE TESTE",
+                uf: "UF TESTE"
+            });
+        expect(response.status).toBe(400);
+    });
+
     it("[200] - Should be able to search a zipcode", async () => {
-        const response = await request(app).get("/zipcode/14403110")
+        const response = await request(app).get("/zipcode/14403224")
             .set('Authorization', `Bearer ${token}`)
         expect(response.status).toBe(200);
     });

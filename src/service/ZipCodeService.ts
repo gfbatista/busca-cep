@@ -1,8 +1,12 @@
-import ZipCode from "../model/ZipCode";
-import { getCustomRepository } from 'typeorm';
 import * as Yup from 'yup';
+import { getCustomRepository } from 'typeorm';
 
 import ZipCodeRepository from '../repository/ZipCodeRepository';
+import { setCep } from "../util/functions";
+import ApiError from "../util/ApiError";
+import getCepCorreios from "./correiosService";
+
+import ZipCode from "../model/ZipCode";
 
 interface CepRequest {
     cep: string;
@@ -17,21 +21,38 @@ interface ZipCodeRequest {
 }
 
 class ZipCodeService {
-    public async find({ cep }: CepRequest): Promise<ZipCode[]> {
+    public async find({ cep }: CepRequest): Promise<ZipCode> {
 
         const zipCodeRepository = getCustomRepository(ZipCodeRepository);
 
-        const zipCode = await zipCodeRepository.find({
-            where: {
-                cep
+        let zipCode = await zipCodeRepository.findByCep(cep)
+
+        if (!zipCode) {
+            const newCep = cep;
+            for (let index = cep.length - 1; index >= 0; index--) {
+                let cep = setCep(newCep, index, 0);
+                zipCode = await zipCodeRepository.findByCep(cep);
+                if (zipCode) {
+                    break;
+                }
             }
-        });
+        }
+
+        if (!zipCode) {
+            throw new ApiError('CEP inválido',);
+        }
 
         return zipCode;
     }
 
 
     public async execute({ cep, rua, bairro, cidade, uf }: ZipCodeRequest): Promise<ZipCode> {
+
+        const responseCep = await getCepCorreios(cep);
+
+        if (!responseCep) {
+            throw new ApiError('CEP inválido udenfined',);
+        }
 
         const zipCodeRepository = getCustomRepository(ZipCodeRepository);
 
