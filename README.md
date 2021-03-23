@@ -19,6 +19,9 @@ npm install
 npm run typeorm migration:run
 ```
 ### Testes: ###
+```
+npm run test
+```
 
 ### Rotas: ###
 - Checagem da conexão da aplicação: <br>
